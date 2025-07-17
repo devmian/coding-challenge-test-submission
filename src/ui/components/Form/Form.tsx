@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react';
 
 import Button from '../Button/Button';
-import InputText from '../InputText/InputText';
+import InputText, { InputTextProps } from '../InputText/InputText';
 import $ from './Form.module.css';
 
 interface FormEntry {
@@ -9,7 +9,7 @@ interface FormEntry {
   placeholder: string;
   // TODO: Defined a suitable type for extra props
   // This type should cover all different of attribute types
-  extraProps: any;
+  extraProps: Omit<InputTextProps, 'name' | 'placeholder'>;
 }
 
 interface FormProps {

@@ -22,3 +22,14 @@
 .item h3 {
   margin: 0 0 0.5em;
 }
+
+@media (max-width: 426px) {
+  .item {
+    flex-direction: column;
+    align-items: baseline;
+  }
+
+  .remove {
+    margin-left: inherit;
+  }
+}
