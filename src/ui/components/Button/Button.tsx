@@ -29,8 +29,12 @@ const Button: FunctionComponent<ButtonProps> = ({
       className={cx({ button: true, secondary: variant === "secondary", primary: variant === "primary" })}
       type={type}
       onClick={onClick}
+      disabled={loading}
     >
-      {children}
+      {loading && (
+        <span data-testid="loading-spinner" className={$.spinner} />
+      )}
+      {!loading && children}
     </button>
   );
 };

@@ -10,32 +10,14 @@ import useAddressBook from "@/hooks/useAddressBook";
 
 import styles from "./App.module.css";
 import { Address as AddressType } from "./types";
+import useFormFields from "@/hooks/useFormFields";
 
-interface FormFields {
+export interface FormFields {
   postCode: string;
   houseNumber: string;
   firstName: string;
   lastName: string;
   selectedAddress: string;
-}
-
-function useFormFields(initialValues: FormFields) {
-  const [fields, setFields] = useState<FormFields>(initialValues);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFields((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const resetFields = () => {
-    setFields(initialValues);
-  };
-
-  return {
-    fields,
-    handleChange,
-    resetFields,
-  };
 }
 
 function App() {
@@ -82,9 +64,11 @@ function App() {
    * - Ensure to clear previous search results on each click
    * - Bonus: Add a loading state in the UI while fetching addresses
    */
+  const [isLoading, setIsLoading] = React.useState(false);
   const handleAddressSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(undefined);
+    setIsLoading(true);
     setAddresses([]);
 
     try {
@@ -107,6 +91,8 @@ function App() {
       setAddresses(transformed);
     } catch (err) {
       setError("Could not fetch addresses. Please try again.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -171,7 +157,7 @@ function App() {
                 placeholder="House number"
               />
             </div>
-            <Button type="submit">Find</Button>
+            <Button type="submit" loading={isLoading}>Find</Button>
           </fieldset>
         </form>
         {addresses.length > 0 &&
